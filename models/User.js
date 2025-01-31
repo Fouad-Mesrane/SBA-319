@@ -22,14 +22,6 @@ const userSchema = new mongoose.Schema({
 });
 
 
-userSchema.pre('remove', async function(next) {
-  try {
-    // Delete all posts where authorId matches the current user's _id
-    await Post.deleteMany({ authorId: this._id });
-    next(); // Proceed with user deletion
-  } catch (error) {
-    next(error); // If error, move to the next middleware with error
-  }
-});
+
 
 export default mongoose.model("User", userSchema);

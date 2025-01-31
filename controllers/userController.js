@@ -1,5 +1,5 @@
 import User from "../models/User.js";
-
+import Post from "../models/Post.js";
 // get all users
 export const getAllUsers = async (req, res) => {
   try {
@@ -51,18 +51,19 @@ export const updateUser = async (req, res) => {
       .json({ message: "error updating user", error: error.message });
   }
 };
+
+// delete user
 export const deleteUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
 
-    // Delete the user (the pre-hook will delete their posts)
-    await user.remove();  // This will trigger the 'pre' hook in the User schema
+    await Post.deleteMany({ "authorId": req.params.id });
+
+    await User.findByIdAndDelete(req.params.id);
 
     res.json({ message: "User and their posts deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Error deleting user", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error deleting user", error: error.message });
   }
 };
