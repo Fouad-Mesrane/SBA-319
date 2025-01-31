@@ -27,9 +27,10 @@ export const createComment = async (req, res) => {
   }
 };
 
+// get all comments 
 export const getAllComments = async (req, res) => {
   try {
-    const comments = await Comment.find();
+    const comments = await Comment.find({});
     res.status(200).json(comments);
   } catch (error) {
     res
@@ -38,6 +39,19 @@ export const getAllComments = async (req, res) => {
   }
 };
 
+// get all comments for a post
+export const getCommentsByPostId = async (req, res) => {
+  try {
+    const comments = await Comment.find({ postId: req.params.id });
+    res.status(200).json(comments);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Failed to fetch comments", error: error.message });
+  }
+};
+
+// get comment by id
 export const getCommentById = async (req, res) => {
   try {
     const comment = await Comment.findById(req.params.id);
