@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import Post from "../models/Post.js";
+import Comment from "../models/Comment.js";
 // get all users
 export const getAllUsers = async (req, res) => {
   try {
@@ -57,7 +58,7 @@ export const deleteUser = async (req, res) => {
   try {
 
     await Post.deleteMany({ "authorId": req.params.id });
-
+    await Comment.deleteMany({ "authorId": req.params.id });
     await User.findByIdAndDelete(req.params.id);
 
     res.json({ message: "User and their posts deleted successfully" });

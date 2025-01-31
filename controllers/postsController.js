@@ -1,6 +1,6 @@
 import Post from "../models/Post.js";
 import User from "../models/User.js";
-
+import Comment from "../models/Comment.js";
 // get all posts
 export const getAllPosts = async (req, res) => {
   try {
@@ -60,6 +60,9 @@ export const updatePost = async (req, res) => {
 
 export const deletePost = async (req, res) => {
   try {
+    // this to delete comments related to the post
+    const comments = await Comment.deleteMany({ postId: req.params.id });
+    // this to delete the post
     const post = await Post.findByIdAndDelete(req.params.id);
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
