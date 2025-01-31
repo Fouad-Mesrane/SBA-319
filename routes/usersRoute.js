@@ -6,16 +6,16 @@ const router = e.Router()
 
 
 // get all users route 
-router.get("/", getAllUsers)
+router.get("/users", getAllUsers)
 
 // create user route
-router.post("/", createUser)
+router.post("/users", createUser)
 // get single user
-router.get("/:id", getUserById)
+router.get("/users/:id", getUserById)
 // update a user
-router.put("/:id", updateUser)
+router.put("/users/:id", updateUser)
 //delete a user
-router.delete("/:id", deleteUser)
+router.delete("/users/:id", deleteUser)
 
 
 export default router

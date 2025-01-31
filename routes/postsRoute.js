@@ -9,11 +9,11 @@ import {
 
 const router = e.Router();
 
-router.get("/", getAllPosts);
-router.post("/", createPost);
-router.get("/:id", getPostById);
-router.put("/:id", updatePost);
-router.delete("/:id", deletePost);
+router.get("/posts", getAllPosts);
+router.post("/posts", createPost);
+router.get("/posts/:id", getPostById);
+router.put("/posts/:id", updatePost);
+router.delete("/posts/:id", deletePost);
 
 
 

@@ -3,10 +3,13 @@ import { createComment, deleteComment, getAllComments, getCommentById, updateCom
 
 const router = express.Router();
 
-router.get("/", getAllComments);
-router.post("/", createComment);
-router.get("/:id", getCommentById);
-router.put("/:id", updateComment);
-router.delete("/:id", deleteComment);
+// get all comments for a post
+router.get("/posts/:id/comments", getAllComments);
+// create a comment for a post
+router.post("/posts/:id/comments", createComment);
+// get a comment by id
+router.get("/posts/:id/comments/:id", getCommentById);
+router.put("/posts/:id/comments/:id", updateComment);
+router.delete("/comments/:id", deleteComment);
 
 export default router;

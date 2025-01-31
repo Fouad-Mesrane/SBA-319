@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import "dotenv/config";
 import usersRoutes from "./routes/usersRoute.js";
-import postsRoutes from "./routes/postsRoute.js"
+import postsRoutes from "./routes/postsRoute.js";
+import commentsRoutes from "./routes/commentsRoute.js";
 import errorHandler from "./middleware/errorHandler.js";
 const app = express();
 
@@ -18,11 +19,15 @@ mongoose
 // middlewares
 
 app.use(bodyParser.json());
-app.use("/api/users", usersRoutes);
-app.use("/api/posts", postsRoutes);
+
+// routes
+app.use("/api", usersRoutes);
+app.use("/api", postsRoutes);
+app.use("/api", commentsRoutes);
 
 
-app.use(errorHandler)
+// error handler
+app.use(errorHandler);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}`);
