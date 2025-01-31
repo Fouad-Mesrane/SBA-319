@@ -1,5 +1,5 @@
 import e from "express";
-import { createUser, deleteUser, getAllUsers, getUserById, updateUser } from "../controllers/userController";
+import { createUser, deleteUser, getAllUsers, getUserById, updateUser } from "../controllers/userController.js";
 
 const router = e.Router()
 
