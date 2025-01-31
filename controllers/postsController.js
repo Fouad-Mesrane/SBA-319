@@ -1,9 +1,10 @@
 import Post from "../models/Post.js";
+import User from "../models/User.js";
 
 // get all posts
 export const getAllPosts = async (req, res) => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find().populate('authorId', 'firstName lastName email');
     res.status(200).json(posts);
   } catch (error) {
     res
@@ -14,10 +15,13 @@ export const getAllPosts = async (req, res) => {
 // create a posts
 export const createPost = async (req, res) => {
   try {
-    const { title, content } = req.body;
+    const { title, content, email } = req.body;
+    const user = await User.findOne({email})
+    if(!user) res.status(404).json({message : "User not found"})
     const post = new Post({
       title,
       content,
+      authorId : user._id
     });
     // save to the db
     await post.save();
@@ -57,10 +61,11 @@ export const updatePost = async (req, res) => {
 export const deletePost = async (req, res) => {
   try {
     const post = await Post.findByIdAndDelete(req.params.id);
-    res.json({ messgae: "Post deleted successfully", post });
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+    res.json({ message: "Post deleted successfully", post });
   } catch (error) {
-    res
-      .status(400)
-      .json({ message: "Error deleting post", error: error.message });
+    res.status(400).json({ message: "Error deleting post", error: error.message });
   }
 };

@@ -53,11 +53,16 @@ export const updateUser = async (req, res) => {
 };
 export const deleteUser = async (req, res) => {
   try {
-    const user = await User.findByIdAndDelete(req.params.id);
-    res.json({ message: "User Deleted successfully", user });
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Delete the user (the pre-hook will delete their posts)
+    await user.remove();  // This will trigger the 'pre' hook in the User schema
+
+    res.json({ message: "User and their posts deleted successfully" });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "error deleting user", error: error.message });
+    res.status(500).json({ message: "Error deleting user", error: error.message });
   }
 };
