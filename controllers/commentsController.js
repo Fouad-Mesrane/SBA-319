@@ -2,7 +2,7 @@ import Post from "../models/Post.js";
 import User from "../models/User.js";
 import Comment from "../models/Comment.js";
 
-export const createComment = async (req, res) => {
+export const createComment = async (req, res,next) => {
   try {
     const { content, email } = req.body;
     const user = await User.findOne({ email });
@@ -24,11 +24,12 @@ export const createComment = async (req, res) => {
     res
       .status(500)
       .json({ message: "Failed to create a comment", error: error.message });
+      next(error)
   }
 };
 
 // get all comments 
-export const getAllComments = async (req, res) => {
+export const getAllComments = async (req, res, next) => {
   try {
     const comments = await Comment.find({});
     res.status(200).json(comments);
@@ -36,11 +37,12 @@ export const getAllComments = async (req, res) => {
     res
       .status(500)
       .json({ message: "Failed to fetch comments", error: error.message });
+      next(error)
   }
 };
 
 // get all comments for a post
-export const getCommentsByPostId = async (req, res) => {
+export const getCommentsByPostId = async (req, res, next) => {
   try {
     const comments = await Comment.find({ postId: req.params.id });
     res.status(200).json(comments);
@@ -48,11 +50,12 @@ export const getCommentsByPostId = async (req, res) => {
     res
       .status(500)
       .json({ message: "Failed to fetch comments", error: error.message });
+      next(error)
   }
 };
 
 // get comment by id
-export const getCommentById = async (req, res) => {
+export const getCommentById = async (req, res, next) => {
   try {
     const comment = await Comment.findById(req.params.id);
     res.status(200).json(comment);
@@ -60,9 +63,10 @@ export const getCommentById = async (req, res) => {
     res
       .status(500)
       .json({ message: "Failed to fetch comment", error: error.message });
+      next(error)
   }
 };
-export const updateComment = async (req, res) => {
+export const updateComment = async (req, res, next) => {
   try {
     const updatedComment = await Comment.findByIdAndUpdate(
       req.params.id,
@@ -73,9 +77,10 @@ export const updateComment = async (req, res) => {
     res
       .status(400)
       .json({ message: "Error updating comment", error: error.message });
+      next(error)
   }
 };
-export const deleteComment = async (req, res) => {
+export const deleteComment = async (req, res, next) => {
   try {
     const comment = await Comment.findByIdAndDelete(req.params.id);
     if (!comment) {
@@ -86,5 +91,6 @@ export const deleteComment = async (req, res) => {
     res
       .status(400)
       .json({ message: "Error deleting comment", error: error.message });
+      next(error)
   }
 };
