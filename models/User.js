@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
   joinedAt: { type: Date, default: Date.now },
 });
 
-
+userSchema.index({ joinedAt: 1 }); // 1 for ascending order
 
 
 export default mongoose.model("User", userSchema);

@@ -4,7 +4,8 @@ import Comment from "../models/Comment.js";
 // get all users
 export const getAllUsers = async (req, res, next) => {
   try {
-    const users = await User.find();
+    // sort users by joinedAt in descending order
+    const users = await User.find().sort({joinedAt : -1});
     res.status(200).json(users);
   } catch (error) {
     res
